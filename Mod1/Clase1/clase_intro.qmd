@@ -1,0 +1,60 @@
+---
+title: "Clase Introductorio"
+author: "Rafael Takata"
+format: html
+editor: visual
+---
+
+## pkgs
+
+- CTRL + ALT + I para crear un chunk de código
+- CTRL + SHIFT + ENTER para correr el chunk
+
+```{r}
+library(tidyverse)
+library(fpp3)
+```
+
+```{r}
+mpg
+tourism
+```
+
+```{r}
+distinct(tourism, State)
+```
+
+
+```{r}
+filter(tourism, State == 'Victoria')
+```
+
+```{r}
+summarise(group_by(as_tibble(filter(tourism, State == 'Victoria', Region == 'Lakes')), Purpose), media = mean(Trips))
+```
+
+#Pipes
+CTRL + SHIFT + M
+
+```{r}
+tourism |> 
+  filter(State == 'Victoria', Region == 'Lakes') |> 
+  as_tibble() |> 
+  group_by(Purpose) |> 
+  summarise(media = mean(Trips))
+```
+
+```{r}
+tourism |> 
+  filter(State == 'Victoria', Region == 'Lakes') |> 
+  autoplot(Trips) + 
+  facet_wrap(vars(Purpose), scale = 'free_y') +
+  theme(legend.position = 'none')
+```
+
+```{r}
+tourism |> 
+  filter(State == 'Victoria', Region == 'Lakes') |> 
+  write_csv('Victoria.csv')
+```
+
